@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "lit-html": "^2.7.5",
+    "page": "^1.11.6",
+    "page.js": "^4.13.3"
+  },
+  "devDependencies": {
+    "@types/page": "^1.11.6"
+  }
+}

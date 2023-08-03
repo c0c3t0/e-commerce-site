@@ -1,0 +1,14 @@
+.navigation {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-items {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.logo-img {
+    height: 100px;
+}
