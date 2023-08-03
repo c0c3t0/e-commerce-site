@@ -1,17 +1,26 @@
 import * as api from "./api.js";
 
 const endpoints = {
-    'catalog': 'products',
-    'getById': 'products/',
+    'first': 'category/womens-dresses',
+    'getById': '',
+
+    'getByCategory': 'category',
 }
 
 
-export async function getAllItems(){
-    const result = await api.get(endpoints.catalog);
+export async function getFirstCategory(){
+    const result = await api.get(endpoints.first);
     return result;
 }
 
 export async function getById(id){
     const result = await api.get(endpoints.getById + id);
+    return result;
+}
+
+export async function getByCategory(slug){
+    console.log(slug);
+    const result = await api.get(endpoints.getByCategory + slug );
+    console.log(endpoints.getByCategory + slug);
     return result;
 }

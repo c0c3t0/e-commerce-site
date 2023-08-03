@@ -1,10 +1,11 @@
 import { page, render } from './lit.js';
-import { showProducts } from './views/catalog.js';
+import {  showProducts, showProductsByCategory } from './views/catalog.js';
 
 const root = document.querySelector('main');
 
 page(decorateContext)
 page('/', showProducts);
+page('/:slug', showProductsByCategory);
 
 page.start();
 

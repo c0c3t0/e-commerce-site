@@ -13,8 +13,8 @@ main {
 }
 
 .card-wrapper {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
 }
 
@@ -22,7 +22,6 @@ main {
     background-color: white;
     border: 1px solid black;
     padding: 10px 20px;
-    width: 30%;
     height: 55vh;
     display: flex;
     flex-direction: column;

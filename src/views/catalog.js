@@ -1,4 +1,4 @@
-import { getAllItems } from "../api/data.js";
+import { getByCategory, getFirstCategory } from "../api/data.js";
 import { html } from "../lit.js";
 
 const productsTemplate = (products) => html`
@@ -7,7 +7,10 @@ const productsTemplate = (products) => html`
 </aside>
 <section class="catalog">
     <div class="cat-sort">
-        <div class="cat-and-desc">cat</div>
+        <div class="cat-and-desc">cat
+            <span>${products.length} results</span>
+        </div>
+        
         <div class="sort">Sort</div>
     </div>
     <ul role="list" class="card-wrapper" >
@@ -17,13 +20,13 @@ const productsTemplate = (products) => html`
 const productCard = (product) => html`
 <li class="card">
     <div class="img-wrapper">
-        <img src=${product.image} alt="" />
+        <img src=${product.images[0]} alt="" />
     </div>
     <div class="desc">
-        <p><strong>Name: </strong><span>${product.title.slice(0, 60)+'...'}</span></p> 
+        <p><strong>Name: </strong><span>${product.title.slice(0, 50)+'...'}</span></p> 
         <p><strong>Discription: </strong><span>${product.description.slice(0, 40)+'...'}</span></p>
         <p><strong>Price: </strong><span>$${product.price}</span></p>
-        <p><strong>Rating: </strong><span>${product.rating.rate}/${product.rating.count}</span></p>
+        <p><strong>Rating: </strong><span>${product.rating}</span></p>
         <button>Add to Cart</button>
         <a class="details-btn" href="/products/${product.id}">Details</a>
     </div>
@@ -33,6 +36,38 @@ let ctx;
 
 export async function showProducts(context) {
     ctx = context;
-    const data = await getAllItems();
-    ctx.render(productsTemplate(data));
+    const data = await getFirstCategory();
+    console.log(data.products);
+    ctx.render(productsTemplate(data.products));
 }
+
+export async function showProductsByCategory(context) {
+    ctx = context;
+    const slug = ctx.state.path;
+    console.log(slug);
+    const data = await getByCategory(slug);
+    console.log(data);
+    ctx.render(productsTemplate(data.products));
+}
+// export async function showDetails(context) {
+//     ctx = context;
+//     const albumId = ctx.params.id;
+//     const data = await getById(albumId);
+//     console.log(data);
+// export async function showJewelery(context) {
+//     ctx = context;
+//     const data = await getJeweleryCategory();
+//     ctx.render(productsTemplate(data));
+// }
+
+// export async function showMenClothes(context) {
+//     ctx = context;
+//     const data = await getMensCategory();
+//     ctx.render(productsTemplate(data));
+// }
+
+// export async function showWomenClothes(context) {
+//     ctx = context;
+//     const data = await getWomenCategory();
+//     ctx.render(productsTemplate(data));
+// }

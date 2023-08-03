@@ -1,4 +1,4 @@
-const host = 'https://fakestoreapi.com/';
+const host = 'https://dummyjson.com/products/';
 
 async function requester(method, url, data) {
     const option = {
