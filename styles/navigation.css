@@ -1,9 +1,14 @@
 .navigation {
+    width: 90%;
+    background-color:rgba(246, 246, 246, 0.997);
+    position: fixed;
+    top: 0;
     display: flex;
     justify-content: space-between;
 }
 
 .nav-items {
+    padding-right: 46px;
     display: flex;
     gap: 30px;
     align-items: center;
