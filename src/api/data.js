@@ -3,8 +3,7 @@ import * as api from "./api.js";
 const endpoints = {
     'first': 'category/womens-dresses',
     'getById': '',
-
-    'getByCategory': 'category',
+    'getByCategory': 'category/',
 }
 
 
@@ -19,8 +18,6 @@ export async function getById(id){
 }
 
 export async function getByCategory(slug){
-    console.log(slug);
-    const result = await api.get(endpoints.getByCategory + slug );
-    console.log(endpoints.getByCategory + slug);
+    const result = await api.get(endpoints.getByCategory + slug);
     return result;
 }

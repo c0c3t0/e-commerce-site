@@ -5,6 +5,9 @@ main {
     gap: 20px
 }
 
+.cat-and-desc i {
+    font-size: 26px;
+}
 
 
 .cat-sort {
@@ -49,3 +52,11 @@ main {
 
 }
 
+.line-through {
+    color: red;
+    text-decoration: line-through;
+}
+
+.discount-price {
+    color: green;
+}

@@ -1,0 +1,21 @@
+.notifications {
+    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+    margin: 1em;
+}
+
+.notification {
+    font-size: 18px;
+    color: #2BAA76;
+    display: none;
+}
+
+.notification>span {
+    padding:  10px 34px;
+    border-radius: 6px;
+    border: 2px solid #2BAA76;
+    background-color: #ffffff;
+}    
