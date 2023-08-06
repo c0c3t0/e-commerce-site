@@ -1,14 +1,14 @@
 .navigation {
     width: 90%;
-    background-color:rgba(246, 246, 246, 0.997);
+    background-color: rgba(246, 246, 246, 0.997);
     position: fixed;
     top: 0;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
 }
 
 .nav-items {
-    padding-right: 46px;
+    margin: 0 auto;
     display: flex;
     gap: 30px;
     align-items: center;
@@ -16,4 +16,15 @@
 
 .logo-img {
     height: 100px;
+}
+
+.nav-items a {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+}
+
+.active {
+    text-decoration: underline;
 }

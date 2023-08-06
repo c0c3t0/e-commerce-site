@@ -1,10 +1,7 @@
 .notifications {
-    float: right;
-    position: absolute;
-    top: 0;
-    right: 0;
-    text-align: center;
-    margin: 1em;
+    display: flex;
+    justify-content: end;
+    align-items: center;
 }
 
 .notification {
@@ -13,8 +10,8 @@
     display: none;
 }
 
-.notification>span {
-    padding:  10px 34px;
+.notification span {
+    padding:  8px 28px;
     border-radius: 6px;
     border: 2px solid #2BAA76;
     background-color: #ffffff;

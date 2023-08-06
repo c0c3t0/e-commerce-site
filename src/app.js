@@ -1,15 +1,34 @@
 import { page, render } from './lit.js';
-import {  showProducts, showProductsByCategory } from './views/catalog.js';
+import { showProducts, showProductsByCategory } from './views/catalog.js';
 
 const root = document.querySelector('main');
+const navLinks = document.querySelectorAll('.navigation a');
+
 
 page(decorateContext)
 page('/', showProducts);
 page('/:slug', showProductsByCategory);
-
 page.start();
+anchors();
+
 
 function decorateContext(ctx, next) {
+    ctx.anchors = anchors;
     ctx.render = (content) => render(content, root);
     next();
+}
+
+
+function anchors() {
+    console.log(document.location.pathname.slice(8));
+    navLinks.forEach(a => {
+        if (document.location.pathname.endsWith('/')) {
+            a.style.color = 'black';
+        }
+        else if (a.href.includes(document.location.pathname.slice(8))) {
+            a.style.color = 'green';
+        } else {
+            a.style.color = 'black';
+        }
+    })
 }
