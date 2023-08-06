@@ -12,12 +12,18 @@ const productsTemplate = (products, slug) => html`
                 <p>${products.limit} of ${products.total} results</p>
             </div>
             
-            <div class="sort">Sort</div>
+            <div class="sort">
+                <label for="sorting">Sort By:</label> 
+                <select @change=${(e, products) => onClick(e, products)} class="sorting-options" name="sorting"> 
+                    <option value="name-asc">Name A-Z</option> 
+                    <option value="name-desc">Name Z-A</option> 
+                    <option value="price-asc">Price Low to High</option> 
+                    <option value="price-desc">Price High to Low</option> 
+                </select>   
+            </div> 
         </div>
         <ul role="list" class="card-wrapper" >
-            ${products.products.length > 0 
-                ? products.products.map(productCard) 
-                : html`<h2>There are no products yet.</h2>`}
+            ${products.products.map(productCard)}
         </ul>
     </section>`;
 
@@ -27,10 +33,10 @@ const productCard = (product) => html`
         <img src=${product.images[0]} alt="" />
     </div>
     <div class="desc">
-        <p><strong>${product.title.toUpperCase()}</strong></p> 
+        <p><strong class="title">${product.title.toUpperCase()}</strong></p> 
         <p>${product.description.length > 120
-            ? product.description.slice(0, 120) + '...'
-            : product.description}</p>
+        ? product.description.slice(0, 120) + '...'
+        : product.description}</p>
         ${product.discountPercentage
         ? html`<p> 
                     <span class='line-through'>$${product.price}</span>
@@ -63,7 +69,7 @@ export async function showProductsByCategory(context) {
     ctx = context;
     const slug = ctx.state.path.slice(1);
     const data = await getByCategory(slug);
-    console.log(data);
+    console.log(slug);
     ctx.render(productsTemplate(data, slug));
     ctx.anchors();
 }
@@ -76,3 +82,22 @@ function onAddToCard(e) {
 
     setTimeout(() => document.querySelector('.notification').style.display = 'none', 4000);
 }
+
+
+async function onClick(e) {
+    e.preventDefault();
+    const slug = ctx.state.path.slice(1);
+    const data = await getByCategory(slug);
+
+    if (e.target.value == 'name-asc') {
+        ctx.sortedCards['products'] = data.products.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (e.target.value == 'name-desc') {
+        ctx.sortedCards['products'] = data.products.sort((a, b) => b.title.localeCompare(a.title));
+    } else if (e.target.value == 'price-asc') {
+        ctx.sortedCards['products'] = data.products.sort((a, b) => (a.price - a.price * (a.discountPercentage / 100)) - (b.price - b.price * (b.discountPercentage / 100)));
+    } else if (e.target.value == 'price-desc') {
+        ctx.sortedCards['products'] = data.products.sort((a, b) => (b.price - b.price * (b.discountPercentage / 100)) - (a.price - a.price * (a.discountPercentage / 100)));
+    }
+    ctx.render(productsTemplate(ctx.sortedCards, slug));
+}
+

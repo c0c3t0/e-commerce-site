@@ -6,7 +6,7 @@ const navLinks = document.querySelectorAll('.navigation a');
 
 
 page(decorateContext)
-page('/', showProducts);
+page('/womens-dresses', showProducts);
 page('/:slug', showProductsByCategory);
 page.start();
 anchors();
@@ -14,13 +14,13 @@ anchors();
 
 function decorateContext(ctx, next) {
     ctx.anchors = anchors;
+    ctx.sortedCards = {};
     ctx.render = (content) => render(content, root);
     next();
 }
 
 
 function anchors() {
-    console.log(document.location.pathname.slice(8));
     navLinks.forEach(a => {
         if (document.location.pathname.endsWith('/')) {
             a.style.color = 'black';
