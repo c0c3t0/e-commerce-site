@@ -20,4 +20,12 @@ section .privacy {
 section a {
     text-decoration: none;
     flex-direction: column;
+    color: black
+}
+
+.footer-cat i,
+.contact i,
+.privacy i {
+    color:#2BAA76;
+    margin-right: 8px;
 }
