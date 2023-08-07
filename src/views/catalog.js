@@ -15,6 +15,7 @@ const productsTemplate = (products, slug) => html`
             <div class="sort">
                 <label for="sorting">Sort By:</label> 
                 <select @change=${(e, products) => onClick(e, products)} class="sorting-options" name="sorting"> 
+                    <option value="none" selected disabled hidden>-----------</option>   
                     <option value="name-asc">Name A-Z</option> 
                     <option value="name-desc">Name Z-A</option> 
                     <option value="price-asc">Price Low to High</option> 
