@@ -8,14 +8,13 @@ const productsTemplate = (products, slug) => html`
     </aside>
     <section class="catalog">
         <div class="cat-sort">
-            <div class="cat-and-desc"><i>${slug.slice(7).toUpperCase()}</i>
-                <p>${products.limit} of ${products.total} results</p>
+            <div class="cat-and-desc"><em>${slug.slice(7).toUpperCase()}</em>
+                <p>${products.products.length} of ${products.total} results</p>
             </div>
             
             <div class="sort">
                 <label for="sorting">Sort By:</label> 
-                <select @change=${onClick} class="sorting-options" name="sorting"> 
-                    <option value="none" selected disabled hidden>-----------</option>   
+                <select @click=${onClick} class="sorting-options" name="sorting"> 
                     <option value="name-asc">Name A-Z</option> 
                     <option value="name-desc">Name Z-A</option> 
                     <option value="price-asc">Price Low to High</option> 
@@ -63,6 +62,8 @@ export async function showProducts(context) {
     ctx = context;
     const data = await getFirstCategory();
     ctx.render(productsTemplate(data, 'womens-dresses'));
+    console.log(data);
+
     ctx.anchors();
 }
 
@@ -70,7 +71,7 @@ export async function showProductsByCategory(context) {
     ctx = context;
     const slug = ctx.state.path.slice(1);
     const data = await getByCategory(slug);
-    console.log(slug);
+    console.log(data);
     ctx.render(productsTemplate(data, slug));
     ctx.anchors();
 }

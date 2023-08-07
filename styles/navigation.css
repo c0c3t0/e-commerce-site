@@ -1,6 +1,7 @@
 .navigation {
-    width: 90%;
-    background-color: rgba(246, 246, 246, 0.997);
+    width: 100%;
+    background-color: rgba(222, 222, 222, 0.513);
+
     position: fixed;
     top: 0;
     display: grid;

@@ -1,10 +1,13 @@
 body {
-    width: 90%;
+    width: 100%;
     background-color:rgba(246, 246, 246, 0.997);
     margin: 10px auto;
 }
 
 main {
+    width: 90%;
+    margin: 0 auto;
     margin-top: 100px;
+    /* background-color: white; */
 
 }
