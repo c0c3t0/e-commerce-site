@@ -1,12 +1,12 @@
-import { getByCategory, getFirstCategory } from "../api/data.js";
+import {  getByCategory, getFirstCategory } from "../api/data.js";
 import { html } from "../lit.js";
 import { setLeftValue, setRightValue } from "./filter.js";
 
 const productsTemplate = (products, slug) => html`
 
     <aside>
-        <h3>Filter by Price</h3>
-        <div class="filter-wrapper">
+        <section class="filter-wrapper">
+            <h3>Filter by Price</h3>
             <div class="slider-value">
                 <span id="title-min" class="slider-value__title">50</span>
                 <span id="title-max" class="slider-value__title">150</span>
@@ -18,14 +18,14 @@ const productsTemplate = (products, slug) => html`
                         <div id="dot-left" class="double-slider__dot double-slider__dot--left"></div>
                         <div id="dot-right" class="double-slider__dot double-slider__dot--right"></div>
                     </div>
-                    <input @input=${setLeftValue} @click=${filterProducts} id="input-left" min="0" max="200" value="50" type="range" class="double-slider__input">
-                    <input @input=${setRightValue} @click=${filterProducts} id="input-right" min="0" max="200" value="150" type="range" class="double-slider__input">
+                    <input @input=${setLeftValue} @change=${filterProducts} id="input-left" min="0" max="200" value="50" type="range" class="double-slider__input">
+                    <input @input=${setRightValue} @change=${filterProducts} id="input-right" min="0" max="200" value="150" type="range" class="double-slider__input">
                 </div>
             </div>
-        </div>
+        </section>
         <hr>
+        <section>
         <h3>Filter by Rating</h3>
-        <div>
             <form @change=${filterByRating} action="">
                 <input type="radio" id="rating1" name="rating" value="1">
                 <i class="fa-star fa-solid"></i><i class="fa-star fa-regular"></i><i class="fa-star fa-regular"></i><i class="fa-star fa-regular"></i><i class="fa-star fa-regular"></i>
@@ -43,13 +43,12 @@ const productsTemplate = (products, slug) => html`
                 <i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i>
                 <label for="rating5"></label><br>
              </form>
-        </div>
-
+        </section>
     </aside>
     <section class="catalog">
         <div class="cat-sort">
             <div class="cat-and-desc"><em>${slug.slice(7).toUpperCase()}</em>
-                <!-- <p>${products.products.length} of ${products.total} results</p> -->
+                <p>${products.products.length} of ${products.total} results</p>
             </div>
             
             <div class="sort">
@@ -92,7 +91,6 @@ const productCard = (product) => html`
             <span>${product.rating}/5</span>
         </p>
         <button @click=${onAddToCard} class="add">Add to Cart</button>
-        <!-- <a class="details-btn" href="/products/${product.id}">Details</a> -->
     </div>
 </li>`;
 
@@ -111,7 +109,6 @@ export async function showProductsByCategory(context) {
     ctx = context;
     const slug = ctx.state.path.slice(1);
     const data = await getByCategory(slug);
-    console.log(data);
     ctx.render(productsTemplate(data, slug));
     ctx.anchors();
 }

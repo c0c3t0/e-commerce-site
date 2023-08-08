@@ -15,7 +15,7 @@ function decorateContext(ctx, next) {
     ctx.anchors = anchors;
     ctx.sortedCards = {};
     ctx.filteredCards = {};
-    ctx.rateCards = {}
+    ctx.rateCards = {};
     ctx.render = (content) => render(content, root);
     next();
 }
@@ -30,6 +30,6 @@ function anchors() {
             a.style.color = 'green';
         } else {
             a.style.color = 'black';
-        }
-    })
+        };
+    });
 }
