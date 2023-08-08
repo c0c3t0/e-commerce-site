@@ -14,6 +14,8 @@ anchors();
 function decorateContext(ctx, next) {
     ctx.anchors = anchors;
     ctx.sortedCards = {};
+    ctx.filteredCards = {};
+    ctx.rateCards = {}
     ctx.render = (content) => render(content, root);
     next();
 }

@@ -1,15 +1,55 @@
 import { getByCategory, getFirstCategory } from "../api/data.js";
 import { html } from "../lit.js";
+import { setLeftValue, setRightValue } from "./filter.js";
 
 const productsTemplate = (products, slug) => html`
 
     <aside>
-        <h3>Filter</h3>
+        <h3>Filter by Price</h3>
+        <div class="filter-wrapper">
+            <div class="slider-value">
+                <span id="title-min" class="slider-value__title">50</span>
+                <span id="title-max" class="slider-value__title">150</span>
+            </div>
+            <div class="double-slider">
+                <div class="double-slider__body">
+                    <div class="double-slider__track">
+                        <div id="slider-range" class="double-slider__range"></div>
+                        <div id="dot-left" class="double-slider__dot double-slider__dot--left"></div>
+                        <div id="dot-right" class="double-slider__dot double-slider__dot--right"></div>
+                    </div>
+                    <input @input=${setLeftValue} @click=${filterProducts} id="input-left" min="0" max="200" value="50" type="range" class="double-slider__input">
+                    <input @input=${setRightValue} @click=${filterProducts} id="input-right" min="0" max="200" value="150" type="range" class="double-slider__input">
+                </div>
+            </div>
+        </div>
+        <hr>
+        <h3>Filter by Rating</h3>
+        <div>
+            <form @change=${filterByRating} action="">
+                <input type="radio" id="rating1" name="rating" value="1">
+                <i class="fa-star fa-solid"></i><i class="fa-star fa-regular"></i><i class="fa-star fa-regular"></i><i class="fa-star fa-regular"></i><i class="fa-star fa-regular"></i>
+                <label for="rating0"></label><br>
+                <input type="radio" id="rating2" name="rating" value="2">
+                <i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i><i class="fa-star fa-regular"></i><i class="fa-star fa-regular"></i><i class="fa-star fa-regular"></i>
+                <label for="rating2"></label><br>
+                <input type="radio" id="rating3" name="rating" value="3">
+                <i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i><i class="fa-star fa-regular"></i><i class="fa-star fa-regular"></i>
+                <label for="rating3"></label><br>
+                <input type="radio" id="rating4" name="rating" value="4">
+                <i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i><i class="fa-star fa-regular"></i>
+                <label for="rating4"></label><br>
+                <input type="radio" id="rating5" name="rating" value="5">
+                <i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i><i class="fa-star fa-solid"></i>
+                <label for="rating5"></label><br>
+             </form>
+        </div>
+
     </aside>
     <section class="catalog">
         <div class="cat-sort">
             <div class="cat-and-desc"><em>${slug.slice(7).toUpperCase()}</em>
-                <p>${products.products.length} of ${products.total} results</p>
+                <!-- <p>${products.products.length} of ${products.total} results</p> -->
             </div>
             
             <div class="sort">
@@ -23,7 +63,7 @@ const productsTemplate = (products, slug) => html`
             </div> 
         </div>
         <ul role="list" class="card-wrapper" >
-            ${products.products.map(productCard)}
+            ${products.products.length ? products.products.map(productCard) : html`<h3>There are no results yet!</h3>`}
         </ul>
     </section>`;
 
@@ -103,3 +143,82 @@ async function onClick(e) {
     ctx.render(productsTemplate(ctx.sortedCards, slug));
 }
 
+async function filterProducts(e) {
+    e.preventDefault();
+    let id = e.target.id;
+
+    const slug = ctx.state.path.slice(1);
+    const data = await getByCategory(slug);
+
+    if (id === 'input-left') {
+        let titleMax = document.querySelector('#title-max');
+
+        ctx.filteredCards['products'] = data.products
+            .filter
+            (p => p.price - p.price * (p.discountPercentage / 100) >= Number(e.target.value) && p.price - p.price * (p.discountPercentage / 100) <= Number(titleMax.textContent));
+
+    } else if (id === 'input-right') {
+        let titleMin = document.querySelector('#title-min');
+        ctx.filteredCards['products'] = data.products
+            .filter
+            (p => p.price - p.price * (p.discountPercentage / 100) >= Number(titleMin.textContent) && p.price - p.price * (p.discountPercentage / 100) <= Number(e.target.value));
+    };
+
+    ctx.render(productsTemplate(ctx.filteredCards, slug));
+}
+
+
+async function filterByRating(e) {
+    e.preventDefault();
+
+    const slug = ctx.state.path.slice(1);
+    const data = await getByCategory(slug);
+
+    let checked = {};
+
+    getChecked('rating1');
+    getChecked('rating2');
+    getChecked('rating3');
+    getChecked('rating4');
+    getChecked('rating5');
+
+    setVisibility();
+
+    function getChecked(id) {
+        checked[id] = Array.from(document.querySelectorAll('input[id=' + id + ']:checked')).map(el => console.log(el.value));
+        console.log(document.querySelectorAll('input[id=' + id + ']:checked'));
+        console.log(checked);
+    }
+
+    function setVisibility() {
+        if (checked.rating1.length) {
+            ctx.rateCards['products'] = data.products.filter(p => p.rating >= 0 && p.rating < 1);
+        };
+
+        if (checked.rating2.length) {
+            ctx.rateCards['products'] = data.products.filter(p => p.rating >= 1 && p.rating < 2);
+        };
+
+        if (checked.rating3.length) {
+            ctx.rateCards['products'] = data.products.filter(p => p.rating >= 3 && p.rating < 4);
+        };
+
+        if (checked.rating4.length) {
+            ctx.rateCards['products'] = data.products.filter(p => p.rating >= 4.0 && p.rating < 4.3);
+        };
+
+        if (checked.rating5.length) {
+            ctx.rateCards['products'] = data.products.filter(p => p.rating >= 4.3 && p.rating < 5);
+        };
+
+        ctx.render(productsTemplate(ctx.rateCards, slug));
+
+        if (checked.rating1.length == 0 &&
+            checked.rating2.length == 0 &&
+            checked.rating3.length == 0 &&
+            checked.rating4.length == 0 &&
+            checked.rating5.length == 0) {
+            ctx.render(productsTemplate(data.products, slug));
+        };
+    }
+}

@@ -1,8 +1,8 @@
 main {
     display: grid;
     grid-template-areas: "aside section";
-    grid-template-columns: 1fr auto;
-    gap: 20px
+    /* grid-template-columns: 1fr, 5fr; */
+    gap: 20px;
 }
 
 .cat-and-desc em {
