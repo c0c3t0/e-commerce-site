@@ -1,11 +1,11 @@
 import { page, render } from './lit.js';
-import { showProducts, showProductsByCategory } from './views/catalog.js';
+import {  showProducts, showProductsByCategory } from './views/catalog.js';
 
 const root = document.querySelector('main');
 const navLinks = document.querySelectorAll('.navigation a');
 
 page(decorateContext)
-page('/womens-dresses', showProducts);
+page('/', showProducts);
 page('/:slug', showProductsByCategory);
 page.start();
 anchors();

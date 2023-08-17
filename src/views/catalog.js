@@ -3,7 +3,6 @@ import { html } from "../lit.js";
 import { setLeftValue, setRightValue } from "./filter.js";
 
 const productsTemplate = (products, slug) => html`
-
     <aside>
         <section class="filter-wrapper">
             <h3>Filter by Price</h3>
@@ -53,7 +52,7 @@ const productsTemplate = (products, slug) => html`
             
             <div class="sort">
                 <label for="sorting">Sort By:</label> 
-                <select @click=${onClick} class="sorting-options" name="sorting"> 
+                <select @click=${sortProducts} class="sorting-options" name="sorting"> 
                     <option value="name-asc">Name A-Z</option> 
                     <option value="name-desc">Name Z-A</option> 
                     <option value="price-asc">Price Low to High</option> 
@@ -123,7 +122,7 @@ function onAddToCard(e) {
 }
 
 
-async function onClick(e) {
+async function sortProducts(e) {
     e.preventDefault();
     const slug = ctx.state.path.slice(1);
     const data = await getByCategory(slug);
